@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="measures_array">
+        <item>Length</item>
+        <item>Pressure</item>
+        <item>Weight</item>
+        <item>Temperature</item>
+    </string-array>
+
+    <string-array name="length_measures_array">
+        <item>Kilometer</item>
+        <item>Meter</item>
+        <item>Centimeter</item>
+        <item>Millimeter</item>
+        <item>Micrometer</item>
+    </string-array>
+
+    <string-array name="pressure_measures_array">
+        <item>Atmosphere</item>
+        <item>Bar</item>
+        <item>Pascal</item>
+    </string-array>
+
+    <string-array name="weight_measures_array">
+        <item>Tonne</item>
+        <item>Kilogram</item>
+        <item>Gram</item>
+        <item>Milligram</item>
+        <item>Microgram</item>
+    </string-array>
+
+    <string-array name="temperature_measures_array">
+        <item>Celsius</item>
+        <item>Kelvin</item>
+        <item>Fahrenheit</item>
+    </string-array>
+</resources>

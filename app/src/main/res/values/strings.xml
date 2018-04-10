@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MegaConvertor</string>
+    <string name="megaconvertor">MegaConvertor</string>
+    <string name="enterApp">Enter</string>
+    <string name="convert_stuff">Convert stuff!</string>
+    <string name="convert">Convert</string>
 </resources>
