@@ -5,8 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,6 +31,29 @@ public class ConvertorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_convertor);
 
         populateSpinner();
+
+        final Button button = findViewById(R.id.convert_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                EditText editValue = (EditText)findViewById(R.id.from);
+                if (isInteger(editValue.getText().toString())){
+                    int valueToConvert = Integer.parseInt(editValue.getText().toString());
+                    switch(measuresSpinner.getSelectedItem().toString()) {
+                        case "Length":
+
+                            break;
+                        case "Temperature":
+                            break;
+                        case "Weight":
+                            break;
+                        case "Pressure":
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -100,6 +126,16 @@ public class ConvertorActivity extends AppCompatActivity {
         });
     }
 
+    private boolean isInteger( String input ) {
+        try {
+            Integer.parseInt( input );
+            return true;
+        }
+        catch( Exception e ) {
+            return false;
+        }
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
@@ -119,5 +155,9 @@ public class ConvertorActivity extends AppCompatActivity {
         selectedItem = savedInstanceState.getString(SELECTED_ITEM_KEY);
 
         measuresSpinner.setSelection(((ArrayAdapter)measuresSpinner.getAdapter()).getPosition(selectedItem));
+    }
+
+    private int convertFromMeter() {
+        
     }
 }
