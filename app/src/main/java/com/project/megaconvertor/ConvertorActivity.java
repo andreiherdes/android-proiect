@@ -8,9 +8,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
+import com.android.volley.*;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Andrew on 4/9/2018.
@@ -22,6 +28,9 @@ public class ConvertorActivity extends AppCompatActivity {
     private Spinner measuresSpinner;
     private Spinner fromMeasureSpinner;
     private Spinner toMeasureSpinner;
+    private double convertedValue = 0;
+
+    private UnitConvertor unitConvertor;
 
     private String SELECTED_ITEM_KEY = "selectedItem";
 
@@ -30,6 +39,7 @@ public class ConvertorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convertor);
 
+        unitConvertor = new UnitConvertor();
         populateSpinner();
 
         final Button button = findViewById(R.id.convert_button);
@@ -37,20 +47,50 @@ public class ConvertorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editValue = (EditText)findViewById(R.id.from);
                 if (isInteger(editValue.getText().toString())){
-                    int valueToConvert = Integer.parseInt(editValue.getText().toString());
-                    switch(measuresSpinner.getSelectedItem().toString()) {
-                        case "Length":
+                    String unit = measuresSpinner.getSelectedItem().toString();
+                    final String from = fromMeasureSpinner.getSelectedItem().toString();
+                    String to = toMeasureSpinner.getSelectedItem().toString();
+                    final int valueToConvert = Integer.parseInt(editValue.getText().toString());
 
-                            break;
-                        case "Temperature":
-                            break;
-                        case "Weight":
-                            break;
-                        case "Pressure":
-                            break;
-                        default:
-                            break;
+                    if (unit.equals("Currency")) {
+                        String accessKey = "eab74e4cf8bacb65a9dd0347cc0122ec";
+                        String url = "http://data.fixer.io/api/latest?access_key=" + accessKey + "&symbols=" + to;
+                        final String toFinal = to;
+
+                        // Request a string response from the provided URL.
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                                (Request.Method.GET, url, (JSONObject) null, new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            String responseText =  response.getJSONObject("rates").getString(toFinal);
+                                            convertedValue = valueToConvert * Double.parseDouble(responseText);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        // TODO: Handle error
+
+                                    }
+                                });
+
+                        // Access the RequestQueue through your singleton class.
+                        MyRequestQueue queue = MyRequestQueue.getInstance(ConvertorActivity.this);
+                        queue.getQueue().add(jsonObjectRequest);
                     }
+                    else if (unit.equals("Temperature")) {
+                        convertedValue = unitConvertor.convertTemperature(from, to, valueToConvert);
+                    }
+                    else {
+                        convertedValue = unitConvertor.convert(unit, from, to, valueToConvert);
+                    }
+
+                    TextView convertedValueTextView = (TextView)findViewById(R.id.to);
+                    convertedValueTextView.setText(Double.toString(convertedValue));
                 }
             }
         });
@@ -110,9 +150,15 @@ public class ConvertorActivity extends AppCompatActivity {
                     fromMeasureSpinner.setAdapter(adapter);
                     toMeasureSpinner.setAdapter(adapter);
 
-                } else if (spinnerValue.equals("Pressure")) {
+                } else if (spinnerValue.equals("Time")) {
                     adapter = ArrayAdapter.createFromResource(ConvertorActivity.this,
-                            R.array.pressure_measures_array, android.R.layout.simple_spinner_item);
+                            R.array.time_measures_array, android.R.layout.simple_spinner_item);
+
+                    fromMeasureSpinner.setAdapter(adapter);
+                    toMeasureSpinner.setAdapter(adapter);
+                } else if (spinnerValue.equals("Currency")) {
+                    adapter = ArrayAdapter.createFromResource(ConvertorActivity.this,
+                            R.array.currency_measures_array, android.R.layout.simple_spinner_item);
 
                     fromMeasureSpinner.setAdapter(adapter);
                     toMeasureSpinner.setAdapter(adapter);
@@ -158,6 +204,6 @@ public class ConvertorActivity extends AppCompatActivity {
     }
 
     private int convertFromMeter() {
-        
+        return 5;
     }
 }

@@ -2,9 +2,17 @@
 <resources>
     <string-array name="measures_array">
         <item>Length</item>
-        <item>Pressure</item>
+        <item>Time</item>
         <item>Weight</item>
         <item>Temperature</item>
+        <item>Currency</item>
+    </string-array>
+
+    <string-array name="currency_measures_array">
+        <item>USD</item>
+        <item>GBP</item>
+        <item>EUR</item>
+        <item>RON</item>
     </string-array>
 
     <string-array name="length_measures_array">
@@ -12,13 +20,13 @@
         <item>Meter</item>
         <item>Centimeter</item>
         <item>Millimeter</item>
-        <item>Micrometer</item>
     </string-array>
 
-    <string-array name="pressure_measures_array">
-        <item>Atmosphere</item>
-        <item>Bar</item>
-        <item>Pascal</item>
+    <string-array name="time_measures_array">
+        <item>Day</item>
+        <item>Hour</item>
+        <item>Minute</item>
+        <item>Second</item>
     </string-array>
 
     <string-array name="weight_measures_array">
@@ -26,7 +34,6 @@
         <item>Kilogram</item>
         <item>Gram</item>
         <item>Milligram</item>
-        <item>Microgram</item>
     </string-array>
 
     <string-array name="temperature_measures_array">
